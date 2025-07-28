@@ -10,9 +10,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     python3 python3-pip \
  && rm -rf /var/lib/apt/lists/*
 
-#  Add symlinks to ensure python and pip commands are available
-RUN ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
-
 # Choose the MATLAB Runtime release/update that matches your compiled app
 # (change these ARGs as needed; if there’s no update yet, use UPDATE=0 and adjust the URL accordingly)
 ARG MCR_RELEASE=R2024b
