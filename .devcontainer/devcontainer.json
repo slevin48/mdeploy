@@ -1,5 +1,7 @@
-// .devcontainer/devcontainer.json
 {
-  "build": { "dockerfile": "Dockerfile" },
-  "postCreateCommand": "bash .devcontainer/install_mcr.sh"
+  "name": "codespace-with-mcr",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": "ldd --version || true"
 }
