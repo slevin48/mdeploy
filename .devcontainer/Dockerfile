@@ -7,7 +7,11 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libx11-6 libxt6 libxmu6 libxpm4 libxi6 libxrender1 libxrandr2 libxcursor1 \
     libxfixes3 libxdamage1 libxinerama1 libglib2.0-0 libfontconfig1 libxtst6 \
     libnss3 libasound2 libglu1-mesa libgl1-mesa-glx libxcomposite1 libxshmfence1 \
+    python3 python3-pip \
  && rm -rf /var/lib/apt/lists/*
+
+#  Add symlinks to ensure python and pip commands are available
+RUN ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
 
 # Choose the MATLAB Runtime release/update that matches your compiled app
 # (change these ARGs as needed; if there’s no update yet, use UPDATE=0 and adjust the URL accordingly)
