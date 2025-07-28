@@ -20,7 +20,7 @@ WORKDIR /tmp/mcr
 RUN curl -L -o mcr.zip \
   "https://ssd.mathworks.com/supportfiles/downloads/${MCR_RELEASE}/Release/${MCR_UPDATE}/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_${MCR_RELEASE}_Update_${MCR_UPDATE}_glnxa64.zip" \
  && unzip -q mcr.zip \
- && ./install -mode silent -agreeToLicense yes -destinationFolder /opt/matlab/matlab_runtime/${MCR_RELEASE} \
+ && ./install -mode silent -agreeToLicense yes -destinationFolder /opt/matlab/matlab_runtime/ \
  && rm -rf /tmp/mcr
 
 # Set runtime path for Linux shells/processes
