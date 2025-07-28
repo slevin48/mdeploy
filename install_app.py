@@ -1,7 +1,7 @@
 import streamlit as st
 from matlab_runtime import install, guess_prefix
 
-version = "R2025a"
+version = "R2024b"
 install(version, auto_answer=True)
 
 print(guess_prefix())

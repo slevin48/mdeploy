@@ -11,8 +11,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 
 # Choose the MATLAB Runtime release/update that matches your compiled app
 # (change these ARGs as needed; if there’s no update yet, use UPDATE=0 and adjust the URL accordingly)
-ARG MCR_RELEASE=R2025a
-ARG MCR_UPDATE=1
+ARG MCR_RELEASE=R2024b
+ARG MCR_UPDATE=6
 
 # Install MATLAB Runtime silently into /opt/matlab/matlab_runtime/<release>
 WORKDIR /tmp/mcr
