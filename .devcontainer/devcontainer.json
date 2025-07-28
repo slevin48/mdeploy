@@ -1,0 +1,5 @@
+// .devcontainer/devcontainer.json
+{
+  "build": { "dockerfile": "Dockerfile" },
+  "postCreateCommand": "bash .devcontainer/install_mcr.sh"
+}

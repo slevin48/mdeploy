@@ -205,3 +205,19 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Project-specific (MATLAB Runtime Installer)
+archives/
+bin/
+cefclient/
+extern/
+java/
+productdata/
+resources/
+sys/
+ui/
+install
+MATLAB_Runtime_R2025a_Update_1_glnxa64.zip
+matlabruntime_installer_input.txt
+matlabruntime_license_agreement.pdf
+VersionInfo.xml
