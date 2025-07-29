@@ -48,4 +48,5 @@ libxxf86vm1
 net-tools
 procps
 unzip
+x11-xkb-utils
 zlib1g

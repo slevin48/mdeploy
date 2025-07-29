@@ -12,8 +12,8 @@ RUN [ -d /usr/share/X11/xkb ] || mkdir -p /usr/share/X11/xkb
 
 # Choose the MATLAB Runtime release/update that matches your compiled app
 # (change these ARGs as needed; if there’s no update yet, use UPDATE=0 and adjust the URL accordingly)
-ARG MCR_RELEASE=R2024b
-ARG MCR_UPDATE=6
+ARG MCR_RELEASE=R2025a
+ARG MCR_UPDATE=1
 
 # Download and install MATLAB Runtime
 WORKDIR /tmp/mcr
