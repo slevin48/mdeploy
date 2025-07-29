@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04
 # Install basic tools + pull in MATLAB Runtime dependencies from MathWorks repo
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      curl unzip ca-certificates wget xargs && \
+      curl unzip ca-certificates wget findutils && \
     \
     # Fetch and install the official MATLAB deps list
     MATLAB_DEPS_URL="https://raw.githubusercontent.com/mathworks-ref-arch/container-images/main/matlab-deps/r2025a/ubuntu22.04/base-dependencies.txt" && \
@@ -15,7 +15,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* /tmp/matlab-deps.txt
 
 # Choose the MATLAB Runtime release/update that matches your compiled app
-# (change these ARGs as needed; if there’s no update yet, use UPDATE=0 and adjust the URL accordingly)
 ARG MCR_RELEASE=R2025a
 ARG MCR_UPDATE=1
 
