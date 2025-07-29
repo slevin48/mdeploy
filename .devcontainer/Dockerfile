@@ -1,35 +1,40 @@
-# Base image for Codespaces (Ubuntu 22.04)
-FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04
+# Copyright 2025 The MathWorks, Inc.
 
-# Install basic tools + pull in MATLAB Runtime dependencies from MathWorks repo
+FROM ubuntu:24.04
+
+# Non-interactive installation
+ENV DEBIAN_FRONTEND="noninteractive" TZ="Etc/UTC"
+
+# Copy and install OS-level dependencies
+COPY base-dependencies.txt /tmp/base-dependencies.txt
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      curl unzip ca-certificates wget findutils && \
-    \
-    # Fetch and install the official MATLAB deps list
-    MATLAB_DEPS_URL="https://raw.githubusercontent.com/mathworks-ref-arch/container-images/main/matlab-deps/r2025a/ubuntu22.04/base-dependencies.txt" && \
-    wget -q "${MATLAB_DEPS_URL}" -O /tmp/matlab-deps.txt && \
-    xargs -a /tmp/matlab-deps.txt -r apt-get install --no-install-recommends -y && \
-    \
-    # Clean up
-    rm -rf /var/lib/apt/lists/* /tmp/matlab-deps.txt
+    xargs -a /tmp/base-dependencies.txt apt-get install --no-install-recommends -y && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Choose the MATLAB Runtime release/update that matches your compiled app
+# Ensure X11 keyboard layout directory exists
+RUN mkdir -p /usr/share/X11/xkb
+
+# MATLAB Runtime version configuration
 ARG MCR_RELEASE=R2025a
 ARG MCR_UPDATE=1
 
-# Install MATLAB Runtime silently into /opt/matlab/matlab_runtime/<release>
+# Download and install MATLAB Runtime
 WORKDIR /tmp/mcr
-RUN curl -sSL -o mcr.zip \
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y curl unzip && \
+    curl -sSL -o mcr.zip \
       "https://ssd.mathworks.com/supportfiles/downloads/${MCR_RELEASE}/Release/${MCR_UPDATE}/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_${MCR_RELEASE}_Update_${MCR_UPDATE}_glnxa64.zip" && \
     unzip -q mcr.zip && \
-    ./install -mode silent -agreeToLicense yes -destinationFolder /opt/matlab/matlab_runtime/ && \
-    rm -rf /tmp/mcr
+    ./install -mode silent -agreeToLicense yes -destinationFolder /opt/matlab/matlab_runtime && \
+    rm -rf /tmp/mcr /var/lib/apt/lists/*
 
-# Set runtime path for Linux shells/processes
+# Set MATLAB Runtime environment variables
 ENV MCRROOT=/opt/matlab/matlab_runtime/${MCR_RELEASE}
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:\
-$MCRROOT/runtime/glnxa64:\
-$MCRROOT/bin/glnxa64:\
-$MCRROOT/sys/os/glnxa64:\
-$MCRROOT/extern/bin/glnxa64
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:\
+    $MCRROOT/runtime/glnxa64: \
+    $MCRROOT/bin/glnxa64: \
+    $MCRROOT/sys/os/glnxa64: \
+    $MCRROOT/extern/bin/glnxa64
+
+# Return to root for any further steps
+WORKDIR /
