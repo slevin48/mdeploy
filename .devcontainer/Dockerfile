@@ -15,7 +15,7 @@ RUN [ -d /usr/share/X11/xkb ] || mkdir -p /usr/share/X11/xkb
 ARG MCR_RELEASE=R2024b
 ARG MCR_UPDATE=6
 
-# Install MATLAB Runtime silently into /opt/matlab/matlab_runtime/<release>
+# Download and install MATLAB Runtime
 WORKDIR /tmp/mcr
 RUN curl -L -o mcr.zip \
   "https://ssd.mathworks.com/supportfiles/downloads/${MCR_RELEASE}/Release/${MCR_UPDATE}/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_${MCR_RELEASE}_Update_${MCR_UPDATE}_glnxa64.zip" \
