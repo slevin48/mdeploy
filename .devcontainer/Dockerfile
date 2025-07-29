@@ -1,14 +1,14 @@
-# Base image for Codespaces (Ubuntu 22.04)
-FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04
+# Base image for Codespaces (Ubuntu 24.04)
+FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
 
-# Install libraries MCR expects + tools
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    curl unzip ca-certificates \
-    libx11-6 libxt6 libxmu6 libxpm4 libxi6 libxrender1 libxrandr2 libxcursor1 \
-    libxfixes3 libxdamage1 libxinerama1 libglib2.0-0 libfontconfig1 libxtst6 \
-    libnss3 libasound2 libglu1-mesa libgl1-mesa-glx libxcomposite1 libxshmfence1 \
-    python3 python3-pip \
- && rm -rf /var/lib/apt/lists/*
+ENV DEBIAN_FRONTEND="noninteractive" TZ="Etc/UTC"
+
+COPY base-dependencies.txt /tmp/base-dependencies.txt
+
+RUN apt-get update && apt-get install --no-install-recommends -y `cat /tmp/base-dependencies.txt` \
+    && apt-get clean && apt-get -y autoremove && rm -rf /var/lib/apt/lists/*
+
+RUN [ -d /usr/share/X11/xkb ] || mkdir -p /usr/share/X11/xkb
 
 # Choose the MATLAB Runtime release/update that matches your compiled app
 # (change these ARGs as needed; if there’s no update yet, use UPDATE=0 and adjust the URL accordingly)
