@@ -1,30 +1,40 @@
-# Input arguments (optional)
-# (Default values)
-ARG MCRINSTALLER=MATLAB_Runtime_R2024b_Update_6_glnxa64.zip
-# ARG MCRINSTALLER=https://ssd.mathworks.com/supportfiles/downloads/R2024b/Release/6/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_R2024b_Update_6_glnxa64.zip
 ARG MCR_RELEASE=R2024b
+ARG MCR_UPDATE=6
 
-FROM mathworks/matlab-deps:${MCR_RELEASE} as installer
+# ── Stage 1: download & install MCR ───────────────────────────────────────
+FROM mathworks/matlab-deps:${MCR_RELEASE} AS installer
 
-ARG MCRINSTALLER
+ARG MCR_RELEASE
+ARG MCR_UPDATE
 
-# Copy MCR installer zip into container
-RUN mkdir /mcr-install
-ADD ${MCRINSTALLER} /mcr-install/
-ADD installer_input.txt /mcr-install/
+# Install tools to fetch & unzip
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+       curl unzip && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install MCR
-#RUN cd /mcr-install && unzip ${MCRINSTALLER} && ./install -inputFile installer_input.txt
-RUN cd /mcr-install && unzip ${MCRINSTALLER} && ./install -mode silent -agreeToLicense yes -destinationFolder /usr/local/MATLAB/MATLAB_Runtime 
+WORKDIR /tmp/mcr
 
-# Remove install binaries
-RUN rm -rf mcr-install
+# Download the Runtime installer ZIP
+# https://ssd.mathworks.com/supportfiles/downloads/R2024b/Release/6/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_R2024b_Update_6_glnxa64.zip
+RUN curl -fsSL -o mcr.zip \
+      "https://ssd.mathworks.com/supportfiles/downloads/${MCR_RELEASE}/Release/${MCR_UPDATE}/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_${MCR_RELEASE}_Update_${MCR_UPDATE}_glnxa64.zip"
 
-# Second stage in build
+# Unzip and perform silent install
+RUN unzip mcr.zip && \
+    ./install -mode silent \
+               -agreeToLicense yes \
+               -destinationFolder /usr/local/MATLAB/MATLAB_Runtime
+
+# Clean up installer files
+RUN rm -rf /tmp/mcr
+
+# ── Stage 2: runtime image ────────────────────────────────────────────────
 FROM mathworks/matlab-deps:${MCR_RELEASE}
 
 ARG MCR_RELEASE
 
+# Copy installed MCR into final image
 COPY --from=installer /usr/local/MATLAB /usr/local/MATLAB
 	
 # Install Python, pip, venv, and git
