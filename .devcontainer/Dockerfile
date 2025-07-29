@@ -23,6 +23,12 @@ RUN curl -L -o mcr.zip \
  && ./install -mode silent -agreeToLicense yes -destinationFolder /opt/matlab/matlab_runtime/ \
  && rm -rf /tmp/mcr
 
+# Install Python, pip, venv, and git
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      python3 python3-pip python3-venv git && \
+    rm -rf /var/lib/apt/lists/*
+
 # Set runtime path for Linux shells/processes
 ENV MCRROOT=/opt/matlab/matlab_runtime/${MCR_RELEASE}
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MCRROOT/runtime/glnxa64:$MCRROOT/bin/glnxa64:$MCRROOT/sys/os/glnxa64:$MCRROOT/extern/bin/glnxa64
