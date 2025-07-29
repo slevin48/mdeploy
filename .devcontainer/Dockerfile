@@ -30,11 +30,7 @@ RUN apt-get update && \
 
 # Set MATLAB Runtime environment variables
 ENV MCRROOT=/opt/matlab/matlab_runtime/${MCR_RELEASE}
-ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:\
-    $MCRROOT/runtime/glnxa64: \
-    $MCRROOT/bin/glnxa64: \
-    $MCRROOT/sys/os/glnxa64: \
-    $MCRROOT/extern/bin/glnxa64
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$MCRROOT/runtime/glnxa64:$MCRROOT/bin/glnxa64:$MCRROOT/sys/os/glnxa64:$MCRROOT/extern/bin/glnxa64
 
 # Return to root for any further steps
 WORKDIR /
