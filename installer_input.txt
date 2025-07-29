@@ -1,0 +1,62 @@
+##################################################################
+##
+## Use this file to specify parameters required by the MATLAB Runtime installer at runtime.
+##
+## Instructions for using this file.
+##
+## 1. Create a copy of this template file and fill in the required
+##    information.
+##
+## 2. Uncomment only those lines that start with a single '#'
+##    and set the desired values. All allowed values for the
+##    parameters are defined in the comments section for each
+##    parameter.
+##
+## 3. Launch the MATLAB Runtime installer from the command line, using the -inputfile option
+##    to specify the name of your installer initialization file.
+##
+##    (Windows) setup.exe -inputfile <file_name>
+##    (Linux/macOS) install -inputfile <file_name>
+##
+##################################################################
+##
+##
+## SPECIFY INSTALLATION FOLDER
+##
+## Example:
+##        (Windows) destinationFolder=C:\Program Files\MATLAB_Runtime
+##        (Linux) destinationFolder=/usr/local/MATLAB_Runtime
+##        (macOS) destinationFolder=/Applications/MATLAB_Runtime
+##
+## Set the desired value for destinationFolder and
+## uncomment the line.
+
+destinationFolder=/usr/local/MATLAB_Runtime
+
+##
+## ACCEPT LICENSE AGREEMENT
+##
+## You must agree to the license agreement to install MATLAB Runtime products.
+##
+## Example: agreeToLicense=yes
+##
+## Set agreeToLicense value to yes or no and
+## uncomment the line.
+
+agreeToLicense=yes
+
+##
+## SPECIFY OUTPUT LOG
+##
+## Specify full path of file into which you want the results of the
+## installation to be recorded.
+##
+## Example:
+##            (Windows) outputFile=C:\TEMP\mathworks_<user_name>.log
+##            (Linux) outputFile=/tmp/mathworks_<user_name>.log
+##            (macOS) outputFile=$TMPDIR/mathworks_<user_name>.log
+##
+## Set the desired value for outputFile and
+## uncomment the line.
+
+outputFile=/tmp/mcr_24b_Update_6.log

@@ -3,5 +3,12 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "postCreateCommand": "ldd --version || true"
+  "postCreateCommand": "ldd --version || true",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python"
+      ]
+    }
+  }
 }
