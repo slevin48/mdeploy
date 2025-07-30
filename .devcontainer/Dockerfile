@@ -16,11 +16,12 @@ ARG MCR_RELEASE=R2025a
 ARG MCR_UPDATE=1
 
 # Install MATLAB Runtime silently into /opt/matlab/matlab_runtime/<release>
-RUN curl -sS -L -o mcr.zip \
-      "https://ssd.mathworks.com/supportfiles/downloads/${MCR_RELEASE}/Release/${MCR_UPDATE}/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_${MCR_RELEASE}_Update_${MCR_UPDATE}_glnxa64.zip" \
-    && unzip -q mcr.zip -d /tmp/mcr \
-    && /tmp/mcr/install -mode silent -agreeToLicense yes -destinationFolder /opt/matlab/matlab_runtime/ \
-    && rm mcr.zip && rm -rf /tmp/mcr
+RUN curl -L -o mcr.zip \
+  "https://ssd.mathworks.com/supportfiles/downloads/${MCR_RELEASE}/Release/${MCR_UPDATE}/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_${MCR_RELEASE}_Update_${MCR_UPDATE}_glnxa64.zip" \
+  && unzip -q mcr.zip -d /tmp/mcr \
+  && /tmp/mcr/install -mode silent -agreeToLicense yes -destinationFolder /opt/matlab/matlab_runtime/ \
+  && rm mcr.zip \
+  && rm -rf /tmp/mcr
 
 # Install Python, pip, venv, and git
 RUN apt-get update && \
